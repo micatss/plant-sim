@@ -12,7 +12,6 @@ buildscript {
         classpath 'org.wisepersist:gwt-gradle-plugin:1.1.16'
         classpath 'org.gretty:gretty:3.0.7'
         classpath 'com.mobidevelop.robovm:robovm-gradle-plugin:2.3.16'
-        
 
     }
 }
@@ -90,6 +89,7 @@ project(":core") {
 
 
     dependencies {
+        implementation 'com.googlecode.json-simple:json-simple:1.1.1'
         api "com.badlogicgames.gdx:gdx:$gdxVersion"
         
     }

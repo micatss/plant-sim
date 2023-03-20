@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.micatss.plantsim.PlantSim;
+import com.micatss.plantsim.config.configfile.ScreenConfig;
 import com.micatss.plantsim.util.FontHelper;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 
@@ -56,6 +57,10 @@ public class MainMenuScreen implements Screen {
 		camera.setToOrtho(false, width, height);
 		camera.update();
 		batch.setProjectionMatrix(camera.combined);
+		ScreenConfig screenConfig = game.getConfigSettings().getScreenConfig();
+		screenConfig.setHeight(height);
+		screenConfig.setWidth(width);
+		screenConfig.save();
 	}
 
 	@Override

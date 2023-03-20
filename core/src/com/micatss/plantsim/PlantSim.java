@@ -1,20 +1,19 @@
 package com.micatss.plantsim;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
+import com.micatss.plantsim.config.ConfigSettings;
+import com.micatss.plantsim.config.configfile.ScreenConfig;
 import com.micatss.plantsim.screens.MainMenuScreen;
-import com.micatss.plantsim.util.ConfigSettings;
 
 public class PlantSim extends Game {
 	
 	private final ConfigSettings configSettings = new ConfigSettings();
+	private final ScreenConfig screenConfig = configSettings.getScreenConfig();
 	
 	@Override
 	public void create () {
-		try {
-			configSettings.initializeFiles();
-		} catch (Throwable t) {
-			t.printStackTrace();
-		}
+		Gdx.graphics.setWindowedMode(screenConfig.getWidth(), screenConfig.getHeight());
 		this.setScreen(new MainMenuScreen(this));
 	}
 
@@ -26,5 +25,9 @@ public class PlantSim extends Game {
 	@Override
 	public void dispose () {
 		super.dispose();
+	}
+	
+	public ConfigSettings getConfigSettings() {
+		return configSettings;
 	}
 }
