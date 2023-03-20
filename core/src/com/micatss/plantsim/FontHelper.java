@@ -11,6 +11,6 @@ public class FontHelper {
 	private static BitmapFont getH1() {
 		BitmapFont font = new BitmapFont();
 		font.setColor(Color.BLACK);
-		return font;
+		return font; 
 	}
 }
