@@ -1,4 +1,4 @@
-package com.micatss.plantsim;
+package com.micatss.plantsim.util;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;

@@ -1,4 +1,4 @@
-package com.micatss.plantsim;
+package com.micatss.plantsim.screens;
 
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
@@ -8,7 +8,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.ScreenUtils;
-
+import com.micatss.plantsim.PlantSim;
+import com.micatss.plantsim.util.FontHelper;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 
 public class MainMenuScreen implements Screen {
