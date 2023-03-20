@@ -1,38 +1,47 @@
 package com.micatss.plantsim.screens;
 
+import java.util.Collection;
+import java.util.LinkedList;
+
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.micatss.plantsim.PlantSim;
+import com.micatss.plantsim.config.configfile.ScreenConfig;
+import com.micatss.plantsim.game.DisplayStand;
+import com.micatss.plantsim.game.Drawable;
+import com.micatss.plantsim.game.Pot;
+import com.micatss.plantsim.game.bonsai.Bonsai;
 import com.micatss.plantsim.util.FontHelper;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 
 public class GardenScreen implements Screen {
 
-	final PlantSim game;
-
-	OrthographicCamera camera;
-	SpriteBatch batch;
-	Texture img;
-	Music bgMusic;
-	Sound dropSound;
-	Rectangle bucket;
+	private final PlantSim game;
+	private final ScreenConfig screenConfig;
+	private final OrthographicCamera camera;
 	
-	final BitmapFont cameraSizeStatMessage;
+//	Music bgMusic;
+//	Sound dropSound;
+	
+	private final SpriteBatch batch;
+
+	private Collection<Drawable> drawables = new LinkedList<Drawable>();
+	private Collection<Texture> textures = new LinkedList<Texture>();
+	
+	private final BitmapFont cameraSizeStatMessage = FontHelper.h1;
 
 	public GardenScreen(final PlantSim game) {
 		this.game = game;
-
-		cameraSizeStatMessage = FontHelper.h1;
-		batch = new SpriteBatch();
-		img = new Texture("badlogic.jpg");
-		camera = new OrthographicCamera();
-		camera.setToOrtho(false, 1280, 720);
+		this.screenConfig = game.getConfigSettings().getScreenConfig();
+		this.camera = new OrthographicCamera(screenConfig.getWidth(),screenConfig.getHeight());
+		this.batch = new SpriteBatch();
+		
+		drawables.add(new DisplayStand((int)camera.viewportWidth/2,0,50,200,Color.BROWN));
+		textures.add(new Bonsai(new Pot(Color.BLUE)).asTexture());
 	}
 
 	@Override
@@ -42,19 +51,25 @@ public class GardenScreen implements Screen {
 
 	@Override
 	public void render(float delta) {
-		ScreenUtils.clear(0, 1, 0, 1);
+		ScreenUtils.clear(1, 0, 0, 1);
+		for(Drawable drawable : drawables) {
+			drawable.draw();
+		}
 		batch.begin();
-		cameraSizeStatMessage.draw(batch,camera.viewportWidth + "x" + camera.viewportHeight,camera.viewportWidth - 100,camera.viewportHeight - 100);
-		
-		batch.draw(img, camera.viewportWidth/2, camera.viewportHeight/2);
+		for(Texture texture : textures) {
+			batch.draw(texture, 0, 0);
+		}
+//		cameraSizeStatMessage.draw(batch,camera.viewportWidth + "x" + camera.viewportHeight,camera.viewportWidth - 150,camera.viewportHeight - 150);
 		batch.end();
+		
 	}
 
 	@Override
 	public void resize(int width, int height) {
-		System.out.println("resize() called");
+		game.updateScreenConfig(width, height);
 		camera.setToOrtho(false, width, height);
 		camera.update();
+//		viewport.update(width, height, true);
 		batch.setProjectionMatrix(camera.combined);
 	}
 
@@ -77,7 +92,9 @@ public class GardenScreen implements Screen {
 	@Override
 	public void dispose() {
 		batch.dispose();
-		img.dispose();
+		for(Texture texture : textures) {
+			texture.dispose();
+		}
 	}
 
 }

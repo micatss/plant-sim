@@ -17,23 +17,16 @@ public class MainMenuScreen implements Screen {
 
 	final PlantSim game;
 
-	OrthographicCamera camera;
+//	OrthographicCamera camera;
 	SpriteBatch batch;
 	Texture img;
-	Music bgMusic;
-	Sound dropSound;
-	Rectangle bucket;
-	
-	final BitmapFont cameraSizeStatMessage;
+//	Music bgMusic;
+//	Sound dropSound;
 
 	public MainMenuScreen(final PlantSim game) {
 		this.game = game;
-
-		cameraSizeStatMessage = FontHelper.h1;
 		batch = new SpriteBatch();
 		img = new Texture("badlogic.jpg");
-		camera = new OrthographicCamera();
-		camera.setToOrtho(false, 1280, 720);
 	}
 
 	@Override
@@ -45,22 +38,15 @@ public class MainMenuScreen implements Screen {
 	public void render(float delta) {
 		ScreenUtils.clear(0, 1, 0, 1);
 		batch.begin();
-		cameraSizeStatMessage.draw(batch,camera.viewportWidth + "x" + camera.viewportHeight,camera.viewportWidth - 100,camera.viewportHeight - 100);
+//		cameraSizeStatMessage.draw(batch,camera.viewportWidth + "x" + camera.viewportHeight,camera.viewportWidth - 100,camera.viewportHeight - 100);
 		
-		batch.draw(img, camera.viewportWidth/2, camera.viewportHeight/2);
+		batch.draw(img, 0,0);
 		batch.end();
 	}
 
 	@Override
 	public void resize(int width, int height) {
-		System.out.println("resize() called");
-		camera.setToOrtho(false, width, height);
-		camera.update();
-		batch.setProjectionMatrix(camera.combined);
-		ScreenConfig screenConfig = game.getConfigSettings().getScreenConfig();
-		screenConfig.setHeight(height);
-		screenConfig.setWidth(width);
-		screenConfig.save();
+		game.updateScreenConfig(width, height);
 	}
 
 	@Override
