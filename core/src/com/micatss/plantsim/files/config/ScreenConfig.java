@@ -1,4 +1,4 @@
-package com.micatss.plantsim.config.configfile;
+package com.micatss.plantsim.files.config;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -6,13 +6,13 @@ import java.io.FileNotFoundException;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 
-import com.micatss.plantsim.config.GameConfiguration;
+import com.micatss.plantsim.files.GameConfiguration;
 
 public class ScreenConfig extends ConfigFile implements GameConfiguration {
 
-	public static final String SCREEN_CONFIG_FILENAME = "screen.conf";
+	public static final String FILENAME = "screen.conf";
 	public String getFilename() {
-		return SCREEN_CONFIG_FILENAME;
+		return FILENAME;
 	}
 
 	private static final String SCREEN_WIDTH = "screen.width";

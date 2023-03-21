@@ -9,7 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.micatss.plantsim.PlantSim;
-import com.micatss.plantsim.config.configfile.ScreenConfig;
+import com.micatss.plantsim.files.config.ScreenConfig;
 import com.micatss.plantsim.util.FontHelper;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 

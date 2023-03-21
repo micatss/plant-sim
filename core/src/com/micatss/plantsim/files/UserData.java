@@ -1,4 +1,4 @@
-package com.micatss.plantsim.config;
+package com.micatss.plantsim.files;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -8,10 +8,11 @@ import org.json.simple.*;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import com.micatss.plantsim.config.configfile.ScreenConfig;
+import com.micatss.plantsim.files.config.ScreenConfig;
+import com.micatss.plantsim.files.save.SaveData;
 import com.micatss.plantsim.util.ProgramLog;
 
-public class ConfigSettings {
+public class UserData {
 	
 	private static final String USER_HOME = System.getProperty("user.home");
 	private static final String GAME_DIRECTORY = ".plantsim/";
@@ -19,14 +20,15 @@ public class ConfigSettings {
 	private final File configDirectory;
 	
 	private ScreenConfig screenConfig;
+	private SaveData saveData;
 	
-	public ConfigSettings() {
+	public UserData() {
 		this(GAME_DIRECTORY);
 	}
-	public ConfigSettings(String configDirectory) {
+	public UserData(String configDirectory) {
 		this(new File(USER_HOME + "/" + configDirectory));
 	}
-	public ConfigSettings(File configDirectory) {
+	public UserData(File configDirectory) {
 		this.configDirectory = configDirectory;
 		loadFiles();
 	}
@@ -34,7 +36,8 @@ public class ConfigSettings {
 	private void loadFiles() {
 		try {
 			makeConfigDirectory();
-			screenConfig = new ScreenConfig(loadFileFromConfigDirectory(ScreenConfig.SCREEN_CONFIG_FILENAME));
+			screenConfig = new ScreenConfig(loadFileFromConfigDirectory(ScreenConfig.FILENAME));
+			saveData = new SaveData(loadFileFromConfigDirectory(SaveData.FILENAME));
 		} catch (Throwable t) {
 			ProgramLog.error(t.toString());
 		}
@@ -60,6 +63,10 @@ public class ConfigSettings {
 	
 	public ScreenConfig getScreenConfig() {
 		return screenConfig;
+	}
+	
+	public SaveData getSaveData() {
+		return saveData;
 	}
 	
 	

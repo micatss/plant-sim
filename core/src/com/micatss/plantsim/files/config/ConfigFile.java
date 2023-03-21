@@ -1,18 +1,16 @@
-package com.micatss.plantsim.config.configfile;
-
-import com.micatss.plantsim.config.GameConfiguration;
-import com.micatss.plantsim.util.ProgramLog;
-import org.json.simple.parser.ParseException;
-import org.json.simple.JSONObject;
+package com.micatss.plantsim.files.config;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.util.Scanner;
 
-import javax.security.auth.login.Configuration;
-
+import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
+import com.micatss.plantsim.files.GameConfiguration;
+import com.micatss.plantsim.util.ProgramLog;
 
 public abstract class ConfigFile implements GameConfiguration {
 	public abstract String getFilename();

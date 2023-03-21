@@ -2,20 +2,18 @@ package com.micatss.plantsim.game;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.micatss.plantsim.util.Position;
 
-public class DisplayStand implements Drawable {
+public class DisplayStand extends Position implements Drawable {
 	
 	private ShapeRenderer sr = new ShapeRenderer();
 	
 	private int width;
 	private int height;
-	private int x;
-	private int y;
 	private Color color;
 	
 	public DisplayStand(int x, int y, int width, int height, Color color) {
-		this.x = x;
-		this.y = y;
+		super(x,y);
 		this.width = width;
 		this.height = height;
 		this.color = color;
