@@ -4,30 +4,26 @@ import java.util.Collection;
 import java.util.LinkedList;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.micatss.plantsim.PlantSim;
-import com.micatss.plantsim.files.config.ScreenConfig;
 import com.micatss.plantsim.files.save.SaveData;
 import com.micatss.plantsim.files.save.Saveable;
 import com.micatss.plantsim.game.Bonsai;
 import com.micatss.plantsim.game.DisplayStand;
 import com.micatss.plantsim.game.Drawable;
-import com.micatss.plantsim.game.Pot;
 import com.micatss.plantsim.game.Spritable;
 import com.micatss.plantsim.util.FontHelper;
+import com.micatss.plantsim.util.ProgramLog;
 
-public class GardenScreen implements Screen {
+public class GardenScreen extends DynamicScreen implements Screen, InputProcessor {
 
 	private final PlantSim game;
 	private final SaveData saveData;
-	private final ScreenConfig screenConfig;
-	private final OrthographicCamera camera;
 	
 //	Music bgMusic;
 //	Sound dropSound;
@@ -40,10 +36,10 @@ public class GardenScreen implements Screen {
 	private final BitmapFont basicText = FontHelper.h1;
 
 	public GardenScreen(final PlantSim game) {
+		super(game.getConfigSettings().getScreenConfig());
 		this.game = game;
 		this.saveData = game.getConfigSettings().getSaveData();
-		this.screenConfig = game.getConfigSettings().getScreenConfig();
-		this.camera = new OrthographicCamera(screenConfig.getWidth(),screenConfig.getHeight());
+		Gdx.input.setInputProcessor(this);
 		
 		this.batch = new SpriteBatch();
 		
@@ -57,17 +53,13 @@ public class GardenScreen implements Screen {
 	}
 
 	@Override
-	public void show() {
-		System.out.println("show() called");
-	}
-
-	@Override
 	public void render(float delta) {
-		
+		super.render(delta);
 		ScreenUtils.clear(1, 0, 0, 1);
 		for(Drawable drawable : drawables) {
 			drawable.draw();
 		}
+		
 		batch.begin();
 		for(Spritable sprite : sprites) {
 			batch.draw(sprite.asTexture(), sprite.getX(), sprite.getY());
@@ -75,8 +67,8 @@ public class GardenScreen implements Screen {
 		
 		basicText.draw(batch, "FPS: " + String.format("%d", Gdx.graphics.getFramesPerSecond()), 400, 400);
 		batch.end();
-		
 	}
+	
 	
 	private Collection<Saveable> collectAllSaveables(){
 		Collection<Saveable> saveables = new LinkedList<Saveable>();
@@ -90,36 +82,90 @@ public class GardenScreen implements Screen {
 
 	@Override
 	public void resize(int width, int height) {
-		game.updateScreenConfig(width, height);
-		game.updateSavedata(collectAllSaveables());
-		camera.setToOrtho(false, width, height);
-		camera.update();
-//		viewport.update(width, height, true);
-		batch.setProjectionMatrix(camera.combined);
+		super.resize(width,height);
+	}
+
+	@Override
+	public void show() {
+		super.show();
 	}
 
 	@Override
 	public void pause() {
-		System.out.println("pause() called");
+		super.pause();
 	}
 
 	@Override
 	public void resume() {
-		System.out.println("resume() called");
-		
+		super.resume();
 	}
 
 	@Override
 	public void hide() {
-		System.out.println("hide() called");
+		super.hide();
 	}
 
 	@Override
 	public void dispose() {
+		super.dispose();
 		batch.dispose();
 		for(Spritable sprite : sprites) {
 			sprite.asTexture().dispose();
 		}
+	}
+
+	@Override
+	public boolean keyDown(int keycode) {
+		ProgramLog.info("keyDown:" + keycode);
+		return false;
+	}
+
+	@Override
+	public boolean keyUp(int keycode) {
+		ProgramLog.info("keyUp:" + keycode);
+		return false;
+	}
+
+	@Override
+	public boolean keyTyped(char character) {
+		ProgramLog.info("keyTyped:" + character);
+		return false;
+	}
+
+	@Override
+	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+		ProgramLog.info("touchDown:(" + screenX + "," + screenY + "),pointer:" + pointer + ",button:" + button);
+		return false;
+	}
+
+	@Override
+	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+		ProgramLog.info("touchUp:(" + screenX + "," + screenY + "),pointer:" + pointer + ",button:" + button);
+		return false;
+	}
+
+	@Override
+	public boolean touchDragged(int screenX, int screenY, int pointer) {
+		ProgramLog.info("touchDragged:(" + screenX + "," + screenY + "),pointer:" + pointer);
+		return false;
+	}
+
+	@Override
+	public boolean mouseMoved(int screenX, int screenY) {
+//		ProgramLog.info("mouseMoved:(" + screenX + "," + screenY + ")");
+		return false;
+	}
+
+	@Override
+	public boolean scrolled(float amountX, float amountY) {
+		ProgramLog.info("scrolled:(" + amountX + "," + amountY + ")");
+		zoom(amountY);
+		refreshBatch();
+		return false;
+	}
+	
+	private void refreshBatch() {
+		batch.setProjectionMatrix(camera.combined);
 	}
 
 }
