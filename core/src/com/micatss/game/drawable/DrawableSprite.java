@@ -2,6 +2,7 @@ package com.micatss.game.drawable;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 public class DrawableSprite extends DrawableWithPosition {
 
@@ -14,7 +15,7 @@ public class DrawableSprite extends DrawableWithPosition {
 	}
 
 	@Override
-	public void draw(SpriteBatch batch) {
+	public void draw(SpriteBatch batch, ShapeRenderer shapeRenderer) {
 		batch.draw(asTexture(), position.getX(), position.getY());
 	}
 	

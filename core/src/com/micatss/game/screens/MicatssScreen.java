@@ -6,21 +6,34 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.micatss.game.MicatssGame;
 import com.micatss.game.files.config.ScreenConfig;
 
 public abstract class MicatssScreen implements Screen, InputProcessor {
 
-	protected final ScreenConfig screenConfig;
+	protected final MicatssGame game;
 	protected final OrthographicCamera camera;
 	protected final Music backgroundMusic;
+	protected final SpriteBatch spriteBatch;
+	protected final ShapeRenderer shapeRenderer;
 
 	public MicatssScreen(MicatssGame game, Music backgroundMusic) {
 		Gdx.input.setInputProcessor(this);
-		this.screenConfig = game.getUserData().getScreenConfig();
-		this.camera = new OrthographicCamera(screenConfig.getWidth(),screenConfig.getHeight());
+		this.game = game;
+		this.camera = new OrthographicCamera(getScreenConfig().getWidth(),getScreenConfig().getHeight());
+		camera.setToOrtho(false, getScreenConfig().getWidth(), getScreenConfig().getHeight());
 		this.backgroundMusic = backgroundMusic;
+		this.spriteBatch = new SpriteBatch();
+		this.shapeRenderer = new ShapeRenderer();
+		
+		
+	}
+	
+	protected ScreenConfig getScreenConfig() {
+		return game.getScreenConfig();
 	}
 
 	@Override
@@ -33,9 +46,9 @@ public abstract class MicatssScreen implements Screen, InputProcessor {
 
 	@Override
 	public void resize(int width, int height) {
-		screenConfig.setWidth(width);
-		screenConfig.setHeight(height);
-		screenConfig.save();
+		getScreenConfig().setWidth(width);
+		getScreenConfig().setHeight(height);
+		getScreenConfig().save();
 		camera.setToOrtho(false, width, height);
 		refreshCamera();
 	}
@@ -50,12 +63,12 @@ public abstract class MicatssScreen implements Screen, InputProcessor {
 	public void hide() {}
 
 	@Override
-	public void dispose() {}
-	
-	protected void zoom(float amountY) {
-		camera.zoom += amountY;
-		refreshCamera();
+	public void dispose() {
+		spriteBatch.dispose();
+		shapeRenderer.dispose();
 	}
+	
+	protected abstract void zoom(float amountY);
 	
 	protected void refreshCamera() {
 		camera.update();

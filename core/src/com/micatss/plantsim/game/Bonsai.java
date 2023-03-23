@@ -4,6 +4,7 @@ import org.json.simple.JSONObject;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.micatss.game.drawable.DrawableSprite;
 import com.micatss.game.drawable.Position;
 import com.micatss.game.files.savedata.Saveable;
@@ -50,7 +51,7 @@ public class Bonsai extends DrawableSprite implements Saveable<Bonsai> {
 	}
 
 	@Override
-	public void draw(SpriteBatch batch) {
+	public void draw(SpriteBatch batch, ShapeRenderer shapeRenderer) {
 		batch.draw(asTexture(), position.getX(), position.getY());
 		
 	}

@@ -29,8 +29,8 @@ public class DisplayStand extends DrawableWithPosition {
 	}
 
 	@Override
-	public void draw(SpriteBatch batch) {
-		
+	public void draw(SpriteBatch batch, ShapeRenderer shapeRenderer) {
+		// TODO Auto-generated method stub
 		
 	}
 }

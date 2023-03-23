@@ -8,6 +8,10 @@ public abstract class StaticScreen extends MicatssScreen {
 	public StaticScreen(MicatssGame game, Music backgroundMusic) {
 		super(game,backgroundMusic);
 	}
+	
+
+	@Override
+	protected void zoom(float amountY) {}
 
 
 }

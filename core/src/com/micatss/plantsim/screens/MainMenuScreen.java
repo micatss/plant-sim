@@ -1,21 +1,32 @@
 package com.micatss.plantsim.screens;
 
-import com.badlogic.gdx.graphics.Texture;
+import java.util.LinkedList;
+import java.util.List;
+
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.micatss.game.GameLogger;
+import com.micatss.game.MicatssGame;
+import com.micatss.game.clickable.Button;
+import com.micatss.game.drawable.Drawable;
+import com.micatss.game.drawable.Position;
 import com.micatss.game.screens.StaticScreen;
-import com.micatss.plantsim.PlantSim;
+import com.micatss.plantsim.game.Bonsai;
 
 public class MainMenuScreen extends StaticScreen {
-	SpriteBatch batch;
-	Texture img;
+	
 //	Music bgMusic;
 //	Sound dropSound;
 
-	public MainMenuScreen(final PlantSim game) {
+	private List<Drawable> drawables = new LinkedList<Drawable>();
+	private List<Button> buttons = new LinkedList<Button>();
+	private Button startButton = new Button(0,200,0,150);
+
+	public MainMenuScreen(final MicatssGame game) {
 		super(game,null);
-		batch = new SpriteBatch();
-		img = new Texture("bonsai_1.png");
+		drawables.add(new Bonsai(new Position(0,0),"start.jpg"));
+		buttons.add(startButton);
 	}
 
 	@Override
@@ -26,17 +37,16 @@ public class MainMenuScreen extends StaticScreen {
 	@Override
 	public void render(float delta) {
 		ScreenUtils.clear(0, 1, 0, 1);
-		batch.begin();
-//		cameraSizeStatMessage.draw(batch,camera.viewportWidth + "x" + camera.viewportHeight,camera.viewportWidth - 100,camera.viewportHeight - 100);
-		
-		batch.draw(img, 0,0);
-		batch.end();
+		spriteBatch.begin();
+		for(Drawable button : drawables) {
+			button.draw(spriteBatch,shapeRenderer);
+		}
+		spriteBatch.end();
 	}
 
 	@Override
 	public void dispose() {
-		batch.dispose();
-		img.dispose();
+		super.dispose();
 	}
 
 	@Override
@@ -56,10 +66,19 @@ public class MainMenuScreen extends StaticScreen {
 		// TODO Auto-generated method stub
 		return false;
 	}
+	private boolean startButton_pressed(int x, int y) {
+		return startButton.isClicked(x, y);
+	}
+	private void startButton() {
+		game.setScreen(new GardenScreen(game));
+	}
 
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		// TODO Auto-generated method stub
+		GameLogger.info("touchdown " + screenX + "," + screenY);
+		if(startButton_pressed(screenX,screenY)) {
+			startButton();
+		}
 		return false;
 	}
 

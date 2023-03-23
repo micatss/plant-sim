@@ -6,14 +6,14 @@ import java.util.LinkedList;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.micatss.game.GameLogger;
+import com.micatss.game.MicatssGame;
 import com.micatss.game.drawable.Drawable;
 import com.micatss.game.drawable.Position;
 import com.micatss.game.files.savedata.Saveable;
 import com.micatss.game.screens.DynamicScreen;
-import com.micatss.plantsim.PlantSim;
 import com.micatss.plantsim.dialogue.DialogueBox;
 import com.micatss.plantsim.game.Bonsai;
 import com.micatss.plantsim.game.DisplayStand;
@@ -23,18 +23,13 @@ public class GardenScreen extends DynamicScreen {
 
 	private static final Music backgroundMusic = null;
 //	Sound dropSound;
-	
-	private final SpriteBatch batch;
 
 	private Collection<Drawable> drawables = new LinkedList<Drawable>();
 	private Collection<DialogueBox> dialogueBoxes = new LinkedList<DialogueBox>();
 	
-	private final BitmapFont basicText = FontHelper.h1;
 
-	public GardenScreen(final PlantSim game) {
+	public GardenScreen(final MicatssGame game) {
 		super(game, backgroundMusic);
-		
-		this.batch = new SpriteBatch();
 		
 		for(Saveable saveable : game.getSaveData().getSaveables()) {
 			if(saveable.getSaveType().equals(Bonsai.saveType())) {
@@ -51,19 +46,19 @@ public class GardenScreen extends DynamicScreen {
 	public void render(float delta) {
 		super.render(delta);
 //		ScreenUtils.clear(1, 0, 0, 1);
+
+		spriteBatch.begin();
+//		shapeRenderer.begin();
 		for(Drawable drawable : drawables) {
-			drawable.draw(batch);
-		}
-		
-		batch.begin();
-		for(Drawable drawable : drawables) {
-			drawable.draw(batch);
+			drawable.draw(spriteBatch, shapeRenderer);
 		}
 		for(DialogueBox dialogueBox : dialogueBoxes) {
-			dialogueBox.draw(batch);
+			dialogueBox.draw(spriteBatch, shapeRenderer);
 		}
-//		basicText.draw(batch, "FPS: " + String.format("%d", Gdx.graphics.getFramesPerSecond()), 400, 400);
-		batch.end();
+//		FontHelper.h1.draw(spriteBatch, "FPS: " + String.format("%d", Gdx.graphics.getFramesPerSecond()), 400, 400);
+
+		shapeRenderer.end();
+		spriteBatch.end();
 	}
 	
 	
@@ -80,7 +75,6 @@ public class GardenScreen extends DynamicScreen {
 	@Override
 	public void dispose() {
 		super.dispose();
-		batch.dispose();
 		for(Drawable drawable : drawables) {
 			drawable.dispose();
 		}
@@ -88,31 +82,31 @@ public class GardenScreen extends DynamicScreen {
 
 	@Override
 	public boolean keyDown(int keycode) {
-		GameLogger.info("keyDown:" + keycode);
+//		GameLogger.info("keyDown:" + keycode);
 		return false;
 	}
 
 	@Override
 	public boolean keyTyped(char character) {
-		GameLogger.info("keyTyped:" + character);
+//		GameLogger.info("keyTyped:" + character);
 		return false;
 	}
 
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		GameLogger.info("touchDown:(" + screenX + "," + screenY + "),pointer:" + pointer + ",button:" + button);
+//		GameLogger.info("touchDown:(" + screenX + "," + screenY + "),pointer:" + pointer + ",button:" + button);
 		return false;
 	}
 
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-		GameLogger.info("touchUp:(" + screenX + "," + screenY + "),pointer:" + pointer + ",button:" + button);
+//		GameLogger.info("touchUp:(" + screenX + "," + screenY + "),pointer:" + pointer + ",button:" + button);
 		return false;
 	}
 
 	@Override
 	public boolean touchDragged(int screenX, int screenY, int pointer) {
-		GameLogger.info("touchDragged:(" + screenX + "," + screenY + "),pointer:" + pointer);
+//		GameLogger.info("touchDragged:(" + screenX + "," + screenY + "),pointer:" + pointer);
 		return false;
 	}
 
@@ -131,7 +125,7 @@ public class GardenScreen extends DynamicScreen {
 	}
 	
 	private void refreshBatch() {
-		batch.setProjectionMatrix(camera.combined);
+		spriteBatch.setProjectionMatrix(camera.combined);
 	}
 
 	@Override
