@@ -4,14 +4,19 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.micatss.game.GameLogger;
 import com.micatss.game.drawable.DrawableWithPosition;
 import com.micatss.game.drawable.Position;
-import com.micatss.plantsim.util.FontHelper;
 
 public class DialogueBox extends DrawableWithPosition {
 	
 	private final String message;
+	private READ_STATUS readStatus;
+	
+	private static enum READ_STATUS {
+		BEFORE_SHOWING,
+		NOW_SHOWING,
+		AFTER_SHOWING
+	}
 
 	private static final Color boxColor = Color.BROWN;
 	private static final Color fontColor = Color.BLACK;
@@ -22,6 +27,19 @@ public class DialogueBox extends DrawableWithPosition {
 	public DialogueBox(Position position, String message) {
 		super(position);
 		this.message = message;
+		this.readStatus = READ_STATUS.BEFORE_SHOWING;
+	}
+	
+	public boolean showing() {
+		return readStatus == READ_STATUS.NOW_SHOWING;
+	}
+	
+	public void show() {
+		readStatus = READ_STATUS.NOW_SHOWING;
+	}
+	
+	public void hide() {
+		readStatus = READ_STATUS.AFTER_SHOWING;
 	}
 	
 	@Override

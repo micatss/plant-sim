@@ -2,12 +2,12 @@ package com.micatss.plantsim.screens;
 
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.List;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.micatss.game.GameLogger;
 import com.micatss.game.MicatssGame;
 import com.micatss.game.drawable.Drawable;
@@ -17,7 +17,6 @@ import com.micatss.game.screens.DynamicScreen;
 import com.micatss.plantsim.dialogue.DialogueBox;
 import com.micatss.plantsim.game.Bonsai;
 import com.micatss.plantsim.game.DisplayStand;
-import com.micatss.plantsim.util.FontHelper;
 
 public class GardenScreen extends DynamicScreen {
 
@@ -25,8 +24,8 @@ public class GardenScreen extends DynamicScreen {
 //	Sound dropSound;
 
 	private Collection<Drawable> drawables = new LinkedList<Drawable>();
-	private Collection<DialogueBox> dialogueBoxes = new LinkedList<DialogueBox>();
-	
+	private List<DialogueBox> dialogueBoxes = new LinkedList<DialogueBox>();
+	private int currentDialogIndex = 0;
 
 	public GardenScreen(final MicatssGame game) {
 		super(game, backgroundMusic);
@@ -39,7 +38,7 @@ public class GardenScreen extends DynamicScreen {
 		drawables.add(new DisplayStand(new Position((int)camera.viewportWidth/2,0),50,200,Color.BROWN));
 		drawables.add(new Bonsai(new Position((int)camera.viewportWidth/2, 200), "bonsai_1.png"));
 
-		dialogueBoxes.add(new DialogueBox(new Position(400,500),"FPS: " + String.format("%d", Gdx.graphics.getFramesPerSecond())));
+		dialogueBoxes.add(new DialogueBox(new Position(400,500),"Welcome to the garden."));
 	}
 
 	@Override
@@ -52,13 +51,19 @@ public class GardenScreen extends DynamicScreen {
 		for(Drawable drawable : drawables) {
 			drawable.draw(spriteBatch, shapeRenderer);
 		}
-		for(DialogueBox dialogueBox : dialogueBoxes) {
-			dialogueBox.draw(spriteBatch, shapeRenderer);
-		}
-//		FontHelper.h1.draw(spriteBatch, "FPS: " + String.format("%d", Gdx.graphics.getFramesPerSecond()), 400, 400);
-
-		shapeRenderer.end();
+		processDialogue();
+		
 		spriteBatch.end();
+		shapeRenderer.end();
+	}
+	
+	private void processDialogue() {
+		if(currentDialogIndex<=dialogueBoxes.size()) {
+			DialogueBox dialogueBox = dialogueBoxes.get(currentDialogIndex);
+			if(dialogueBox.showing()){
+				dialogueBox.draw(spriteBatch, shapeRenderer);
+			}
+		}
 	}
 	
 	
@@ -82,6 +87,9 @@ public class GardenScreen extends DynamicScreen {
 
 	@Override
 	public boolean keyDown(int keycode) {
+		if(keycode==Input.Keys.M) {
+			game.updateSavedata(collectAllSaveables());
+		}
 //		GameLogger.info("keyDown:" + keycode);
 		return false;
 	}
@@ -95,6 +103,10 @@ public class GardenScreen extends DynamicScreen {
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 //		GameLogger.info("touchDown:(" + screenX + "," + screenY + "),pointer:" + pointer + ",button:" + button);
+		if(currentDialogIndex<=dialogueBoxes.size()) {
+			DialogueBox dialog = dialogueBoxes.get(currentDialogIndex);
+			dialog.show();
+		}
 		return false;
 	}
 

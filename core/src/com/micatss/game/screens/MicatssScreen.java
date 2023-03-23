@@ -24,7 +24,7 @@ public abstract class MicatssScreen implements Screen, InputProcessor {
 		Gdx.input.setInputProcessor(this);
 		this.game = game;
 		this.camera = new OrthographicCamera(getScreenConfig().getWidth(),getScreenConfig().getHeight());
-		camera.setToOrtho(false, getScreenConfig().getWidth(), getScreenConfig().getHeight());
+//		camera.setToOrtho(false, getScreenConfig().getWidth(), getScreenConfig().getHeight());
 		this.backgroundMusic = backgroundMusic;
 		this.spriteBatch = new SpriteBatch();
 		this.shapeRenderer = new ShapeRenderer();
@@ -41,7 +41,7 @@ public abstract class MicatssScreen implements Screen, InputProcessor {
 
 	@Override
 	public void render(float delta) {
-		ScreenUtils.clear(Color.WHITE);
+//		ScreenUtils.clear(Color.WHITE);
 	}
 
 	@Override
