@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.micatss.plantsim.PlantSim;
+import com.micatss.plantsim.dialogue.DialogueBox;
 import com.micatss.plantsim.files.save.SaveData;
 import com.micatss.plantsim.files.save.Saveable;
 import com.micatss.plantsim.game.Bonsai;
@@ -32,6 +33,7 @@ public class GardenScreen extends DynamicScreen implements Screen, InputProcesso
 
 	private Collection<Drawable> drawables = new LinkedList<Drawable>();
 	private Collection<Spritable> sprites = new LinkedList<Spritable>();
+	private Collection<DialogueBox> dialogueBoxes = new LinkedList<DialogueBox>();
 	
 	private final BitmapFont basicText = FontHelper.h1;
 
@@ -50,12 +52,14 @@ public class GardenScreen extends DynamicScreen implements Screen, InputProcesso
 		}
 		drawables.add(new DisplayStand((int)camera.viewportWidth/2,0,50,200,Color.BROWN));
 		sprites.add(new Bonsai((int)camera.viewportWidth/2, 200, "bonsai_1.png"));
+
+		dialogueBoxes.add(new DialogueBox(400,500,"FPS: " + String.format("%d", Gdx.graphics.getFramesPerSecond()),batch));
 	}
 
 	@Override
 	public void render(float delta) {
 		super.render(delta);
-		ScreenUtils.clear(1, 0, 0, 1);
+//		ScreenUtils.clear(1, 0, 0, 1);
 		for(Drawable drawable : drawables) {
 			drawable.draw();
 		}
@@ -64,8 +68,10 @@ public class GardenScreen extends DynamicScreen implements Screen, InputProcesso
 		for(Spritable sprite : sprites) {
 			batch.draw(sprite.asTexture(), sprite.getX(), sprite.getY());
 		}
-		
-		basicText.draw(batch, "FPS: " + String.format("%d", Gdx.graphics.getFramesPerSecond()), 400, 400);
+		for(DialogueBox dialogueBox : dialogueBoxes) {
+			dialogueBox.draw();
+		}
+//		basicText.draw(batch, "FPS: " + String.format("%d", Gdx.graphics.getFramesPerSecond()), 400, 400);
 		batch.end();
 	}
 	

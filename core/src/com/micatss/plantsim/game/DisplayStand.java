@@ -1,10 +1,11 @@
 package com.micatss.plantsim.game;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.micatss.plantsim.util.Position;
+import com.micatss.plantsim.util.DrawableWithPosition;
 
-public class DisplayStand extends Position implements Drawable {
+public class DisplayStand extends DrawableWithPosition {
 	
 	private ShapeRenderer sr = new ShapeRenderer();
 	
@@ -13,17 +14,22 @@ public class DisplayStand extends Position implements Drawable {
 	private Color color;
 	
 	public DisplayStand(int x, int y, int width, int height, Color color) {
-		super(x,y);
+		super(x,y,null);
 		this.width = width;
 		this.height = height;
 		this.color = color;
 	}
 	
-	@Override
 	public void draw() {
 		sr.setColor(color);
 		sr.begin(ShapeRenderer.ShapeType.Filled);
 		sr.rect(this.x, this.y, this.width, this.height);
 		sr.end();
+	}
+
+	@Override
+	public SpriteBatch getBatch() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

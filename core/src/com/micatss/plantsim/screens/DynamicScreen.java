@@ -1,7 +1,9 @@
 package com.micatss.plantsim.screens;
 
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.utils.ScreenUtils;
 import com.micatss.plantsim.files.config.ScreenConfig;
 
 public abstract class DynamicScreen implements Screen {
@@ -18,7 +20,9 @@ public abstract class DynamicScreen implements Screen {
 	public void show() {}
 
 	@Override
-	public void render(float delta) {}
+	public void render(float delta) {
+		ScreenUtils.clear(Color.WHITE);
+	}
 
 	@Override
 	public void resize(int width, int height) {
