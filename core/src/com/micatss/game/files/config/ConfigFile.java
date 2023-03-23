@@ -1,4 +1,4 @@
-package com.micatss.plantsim.files.config;
+package com.micatss.game.files.config;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -9,8 +9,8 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import com.micatss.plantsim.files.GameConfiguration;
-import com.micatss.plantsim.util.ProgramLog;
+import com.micatss.game.GameLogger;
+import com.micatss.game.files.GameConfiguration;
 
 public abstract class ConfigFile implements GameConfiguration {
 	public abstract String getFilename();
@@ -25,7 +25,7 @@ public abstract class ConfigFile implements GameConfiguration {
 	
 	protected ConfigFile() {
 		this.file = null;
-		ProgramLog.info("Not saving ");
+		GameLogger.info("Not saving.");
 		defaultSettings();
 	}
 	
@@ -57,7 +57,7 @@ public abstract class ConfigFile implements GameConfiguration {
 			writer.write(fileContent());
 			writer.close();
 		} catch (Throwable t) {
-			ProgramLog.error(t.toString());
+			GameLogger.error(t.toString());
 		}
 	}
 }

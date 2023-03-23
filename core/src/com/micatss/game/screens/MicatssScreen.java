@@ -1,19 +1,26 @@
-package com.micatss.plantsim.screens;
+package com.micatss.game.screens;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.micatss.plantsim.files.config.ScreenConfig;
+import com.micatss.game.MicatssGame;
+import com.micatss.game.files.config.ScreenConfig;
 
-public abstract class DynamicScreen implements Screen {
+public abstract class MicatssScreen implements Screen, InputProcessor {
 
-	private final ScreenConfig screenConfig;
+	protected final ScreenConfig screenConfig;
 	protected final OrthographicCamera camera;
+	protected final Music backgroundMusic;
 
-	public DynamicScreen(ScreenConfig screenConfig) {
-		this.screenConfig = screenConfig;
+	public MicatssScreen(MicatssGame game, Music backgroundMusic) {
+		Gdx.input.setInputProcessor(this);
+		this.screenConfig = game.getUserData().getScreenConfig();
 		this.camera = new OrthographicCamera(screenConfig.getWidth(),screenConfig.getHeight());
+		this.backgroundMusic = backgroundMusic;
 	}
 
 	@Override

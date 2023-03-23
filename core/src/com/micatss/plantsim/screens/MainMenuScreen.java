@@ -1,32 +1,21 @@
 package com.micatss.plantsim.screens;
 
-import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.micatss.game.screens.StaticScreen;
 import com.micatss.plantsim.PlantSim;
-import com.micatss.plantsim.files.config.ScreenConfig;
-import com.micatss.plantsim.util.FontHelper;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 
-public class MainMenuScreen implements Screen {
-
-	final PlantSim game;
-
-//	OrthographicCamera camera;
+public class MainMenuScreen extends StaticScreen {
 	SpriteBatch batch;
 	Texture img;
 //	Music bgMusic;
 //	Sound dropSound;
 
 	public MainMenuScreen(final PlantSim game) {
-		this.game = game;
+		super(game,null);
 		batch = new SpriteBatch();
-		img = new Texture("badlogic.jpg");
+		img = new Texture("bonsai_1.png");
 	}
 
 	@Override
@@ -45,30 +34,57 @@ public class MainMenuScreen implements Screen {
 	}
 
 	@Override
-	public void resize(int width, int height) {
-		game.updateScreenConfig(width, height);
-	}
-
-	@Override
-	public void pause() {
-		System.out.println("pause() called");
-	}
-
-	@Override
-	public void resume() {
-		System.out.println("resume() called");
-		
-	}
-
-	@Override
-	public void hide() {
-		System.out.println("hide() called");
-	}
-
-	@Override
 	public void dispose() {
 		batch.dispose();
 		img.dispose();
+	}
+
+	@Override
+	public boolean keyDown(int keycode) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean keyUp(int keycode) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean keyTyped(char character) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean touchDragged(int screenX, int screenY, int pointer) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean mouseMoved(int screenX, int screenY) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean scrolled(float amountX, float amountY) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

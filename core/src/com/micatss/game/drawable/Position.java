@@ -1,10 +1,10 @@
-package com.micatss.plantsim.util;
+package com.micatss.game.drawable;
 
-public abstract class Position {
+public class Position {
 	protected int x;
 	protected int y;
 
-	protected Position(int x, int y) {
+	public Position(int x, int y) {
 		this.x = x;
 		this.y = y;
 	}

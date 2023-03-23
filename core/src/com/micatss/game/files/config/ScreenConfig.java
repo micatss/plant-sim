@@ -1,4 +1,4 @@
-package com.micatss.plantsim.files.config;
+package com.micatss.game.files.config;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -6,7 +6,7 @@ import java.io.FileNotFoundException;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 
-import com.micatss.plantsim.files.GameConfiguration;
+import com.micatss.game.files.GameConfiguration;
 
 public class ScreenConfig extends ConfigFile implements GameConfiguration {
 

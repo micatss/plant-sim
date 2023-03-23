@@ -1,7 +1,7 @@
-package com.micatss.plantsim.util;
+package com.micatss.game;
 
-public class ProgramLog {
-	private ProgramLog() {}
+public class GameLogger {
+	private GameLogger() {}
 	
 	public static void info(String message) {
 		System.out.println(message);

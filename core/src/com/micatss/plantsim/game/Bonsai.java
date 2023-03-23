@@ -3,54 +3,55 @@ package com.micatss.plantsim.game;
 import org.json.simple.JSONObject;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.micatss.plantsim.files.save.Saveable;
-import com.micatss.plantsim.files.save.SaveableParser;
-import com.micatss.plantsim.util.Position;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.micatss.game.drawable.DrawableSprite;
+import com.micatss.game.drawable.Position;
+import com.micatss.game.files.savedata.Saveable;
+import com.micatss.plantsim.files.save.PlantSaveParser;
 
-public class Bonsai extends Position implements Saveable<Bonsai>, Spritable {
+public class Bonsai extends DrawableSprite implements Saveable<Bonsai> {
 
-	private final String imageFile;
 	private Texture texture;
 
 	private static final String X = "X";
 	private static final String Y = "Y";
 	private static final String TEXTURE_FILE = "TEXTURE_FILE";
 	
-	public Bonsai(int x, int y, String imageFile) {
-		super(x,y);
-		this.imageFile = imageFile;
-	}
-	
-	@Override
-	public Texture asTexture() {
-		if(texture==null) {
-			texture = new Texture(imageFile);
-		}
-		return texture;
+	public Bonsai(Position position, String imageFile) {
+		super(position, imageFile);
 	}
 
 	@Override
-	public JSONObject toJson() {
+	public JSONObject asSaveableJson() {
 		JSONObject json = new JSONObject();
-		json.put(SaveableParser.SAVE_TYPE, saveType());
-		json.put(X, this.x);
-		json.put(Y, this.y);
+		json.put(PlantSaveParser.SAVE_TYPE, saveType());
+		json.put(X, position.getX());
+		json.put(Y, position.getY());
 		json.put(TEXTURE_FILE, this.imageFile);
 		return json;
 	}
 
 	public static Bonsai parse(JSONObject json) {
 		return new Bonsai(
-				((Long)json.get(X)).intValue(),
-				((Long)json.get(Y)).intValue(),
+				new Position(
+					((Long)json.get(X)).intValue(),
+					((Long)json.get(Y)).intValue()
+				),
 				(String)json.get(TEXTURE_FILE));
 	}
 	
+	@Override
 	public String getSaveType() {
 		return saveType();
 	}
 
 	public static String saveType() {
 		return Bonsai.class.getName();
+	}
+
+	@Override
+	public void draw(SpriteBatch batch) {
+		batch.draw(asTexture(), position.getX(), position.getY());
+		
 	}
 }

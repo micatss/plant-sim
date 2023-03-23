@@ -4,7 +4,8 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.micatss.plantsim.util.DrawableWithPosition;
+import com.micatss.game.drawable.DrawableWithPosition;
+import com.micatss.game.drawable.Position;
 import com.micatss.plantsim.util.FontHelper;
 
 public class DialogueBox extends DrawableWithPosition {
@@ -17,26 +18,26 @@ public class DialogueBox extends DrawableWithPosition {
 	
 	private static final int margin = 10;
 	
-	public DialogueBox(int x, int y, String message, SpriteBatch batch) {
-		super(x,y,batch);
+	public DialogueBox(Position position, String message) {
+		super(position);
 		this.message = message;
 	}
 	
 	@Override
-	public void draw() {
+	public void draw(SpriteBatch batch) {
 		drawBox();
-		drawText();
+		drawText(batch);
 	}
 	
 	private void drawBox() {
 		SHAPE_RENDERER.setColor(boxColor);
 		SHAPE_RENDERER.begin(ShapeRenderer.ShapeType.Filled);
-		SHAPE_RENDERER.rect(this.x, this.y, 200, 150);
+		SHAPE_RENDERER.rect(position.getX(), position.getY(), 200, 150);
 		SHAPE_RENDERER.end();
 	}
 	
-	private void drawText() {
-		font.draw(getBatch(), message, x+margin, y+margin);
+	private void drawText(SpriteBatch batch) {
+		font.draw(batch, message, position.getX()+margin, position.getY()+margin);
 	}
 
 }

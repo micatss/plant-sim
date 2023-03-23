@@ -1,8 +1,8 @@
-package com.micatss.plantsim.files.save;
+package com.micatss.game.files.savedata;
 
 import org.json.simple.JSONObject;
 
 public interface Saveable<U> {
-	public JSONObject toJson();
+	public JSONObject asSaveableJson();
 	public String getSaveType();
 }
